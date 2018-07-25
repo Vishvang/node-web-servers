@@ -5,11 +5,11 @@
         <title>Home Page</title>
     </head>    
     <body>
-        <h1>{{pageTitle}}</h1>
-        <p>{{welcomeMessage}}</p>
+        {{> header}}
+        
+        {{!-- Handlebar helpers func, passing arg to helper func --}}
+        <p>{{screamIt welcomeMessage}}</p>
 
-        <footer>
-            <p>Copy right {{currentYear}}</p>
-        </footer>
+        {{> footer}}
     </body>
 </html>

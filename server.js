@@ -5,11 +5,24 @@ const hbs = require('hbs');
 
 var app = express();
 
+// Teach express how to read from static directory by calling appp.use we register middleware and we provide midddleware function whihc we want to use
 // Expres Middleware enable us to configure how your app works without configuring manually using
 // fucntion of exp object expresss.static inside middleware function app.us
-// export.static takes the absolute path to folder we want to serve 
-// __dirname store the path to our project direcotry 
+// export.static takes the absolute path to folder we want to serve // __dirname store the path to our project direcotry
 app.use(express.static(__dirname + '/public'));
+
+// setup the file to let know the handlebars that we want to add support for partial.
+hbs.registerPartials(__dirname + '/views/partials');
+
+// Handlebar Helpers - register func to run to dynamically creat some output
+hbs.registerHelper('getCurrentYear', () => {
+    return new Date().getFullYear();
+});
+
+// we can pass arg to helper function
+hbs.registerHelper('screamIt', (text) => {
+    return text.toUpperCase();
+});
 
 // tells express what engine we had like to use and we pass it in second arg
 app.set('view engine', 'hbs');
@@ -27,20 +40,20 @@ app.get('/',(req, res) => {
     // });
 
     res.render('home.hbs', {
-        pageTitle: 'About Page',
-        currentYear: new Date().getFullYear(),
-        welcomeMessage: 'Welcome to Node.js Webserver Demo'
+        pageTitle: 'Home Page',
+        welcomeMessage: 'Welcome to Node.js Webserver Demo',
+        // currentYear: new Date().getFullYear()
     })
 });
-
 
 app.get('/about', (req, res) => {
     //console.log('About page');
     res.render('about.hbs', {
         pageTitle: 'About Page',
-        currentYear: new Date().getFullYear()
+        // currentYear: new Date().getFullYear()
     });
 });
+
 // bad - send back json with errorMessage
 app.get('/bad', (req, res) => {
     res.send({
