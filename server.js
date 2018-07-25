@@ -20,17 +20,26 @@ app.get('/',(req, res) => {
     // res.send('<h1>Hello Express</h1>');
 
     // res.send() going to respond back to req
-    res.send({
-        name: 'Vishvang',
-        age:25,
-        likes: ['painting','cycling']
-    });
+    // res.send({
+    //     name: 'Vishvang',
+    //     age:25,
+    //     likes: ['painting','cycling']
+    // });
+
+    res.render('home.hbs', {
+        pageTitle: 'About Page',
+        currentYear: new Date().getFullYear(),
+        welcomeMessage: 'Welcome to Node.js Webserver Demo'
+    })
 });
 
 
 app.get('/about', (req, res) => {
     //console.log('About page');
-    res.render('about.hbs');
+    res.render('about.hbs', {
+        pageTitle: 'About Page',
+        currentYear: new Date().getFullYear()
+    });
 });
 // bad - send back json with errorMessage
 app.get('/bad', (req, res) => {
