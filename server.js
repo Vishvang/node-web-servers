@@ -7,12 +7,6 @@ const hbs = require('hbs');
 
 var app = express();
 
-// Teach express how to read from static directory by calling appp.use we register middleware and we provide midddleware function whihc we want to use
-// Expres Middleware enable us to configure how your app works without configuring manually using
-// fucntion of exp object expresss.static inside middleware function app.us
-// export.static takes the absolute path to folder we want to serve // __dirname store the path to our project direcotry
-app.use(express.static(__dirname + '/public'));
-
 app.use((req, res, next) => {
     console.log('Inside of the middleware function.');
     var now = new Date().toString();
@@ -30,6 +24,14 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
     res.render('maintenance.hbs');
 });
+
+// Teach express how to read from static directory by calling appp.use we register middleware and we provide midddleware function whihc we want to use
+// Expres Middleware enable us to configure how your app works without configuring manually using
+// fucntion of exp object expresss.static inside middleware function app.us
+// export.static takes the absolute path to folder we want to serve // __dirname store the path to our project direcotry
+// we have to move its order- to make public file to private during maintenance mode and 
+// to let execute the express maintenance middleware to execute before it.
+app.use(express.static(__dirname + '/public')); 
 
 // setup the file to let know the handlebars that we want to add support for partial.
 hbs.registerPartials(__dirname + '/views/partials');
