@@ -24,10 +24,10 @@ app.use((req, res, next) => {
     next(); // letting the server process the request down below.
 });
 
-// This middleware stopes everything after it from executing
-// app.use((req, res, next) => {
-//     res.render('maintenance.hbs');
-// });
+    // This middleware stopes everything after it from executing
+    // app.use((req, res, next) => {
+    //     res.render('maintenance.hbs');
+    // });
 
 // Teach express how to read from static directory by calling appp.use we register middleware and we provide midddleware function whihc we want to use
 // Expres Middleware enable us to configure how your app works without configuring manually using
@@ -81,11 +81,12 @@ app.get('/about', (req, res) => {
     });
 });
 
-// app.get('/maintenance', (req, res) => {
-//     res.render('maintainance.hbs', {
-//         pageTitle: 'Maintenance Page'
-//     });
-// });
+app.get('/projects', (req, res) => {
+    res.render('projects.hbs', {
+        pageTitle: 'Projects Page',
+        projectMessage: 'Portfolio Page Here'
+    });
+});
 
 // bad - send back json with errorMessage
 app.get('/bad', (req, res) => {
