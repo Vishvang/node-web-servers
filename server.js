@@ -5,6 +5,10 @@ const express = require('express');
 // Load handlebars
 const hbs = require('hbs');
 
+// process.env is an object which stores all of our environment variable as key value pairs.  
+// Heroku is goin to set one of the environemtn variable name PORT
+const port = process.env.PORT || 3000;
+
 var app = express();
 
 app.use((req, res, next) => {
@@ -21,9 +25,9 @@ app.use((req, res, next) => {
 });
 
 // This middleware stopes everything after it from executing
-app.use((req, res, next) => {
-    res.render('maintenance.hbs');
-});
+// app.use((req, res, next) => {
+//     res.render('maintenance.hbs');
+// });
 
 // Teach express how to read from static directory by calling appp.use we register middleware and we provide midddleware function whihc we want to use
 // Expres Middleware enable us to configure how your app works without configuring manually using
@@ -92,6 +96,6 @@ app.get('/bad', (req, res) => {
 
 // By calling this we let app to start listening to req
 // here, we are using local port 3000
-app.listen(3000, ()=>{
-    console.log('server is up on to port 3000');
+app.listen(port, ()=>{
+    console.log(`server is up on to port ${port}`);
 });
