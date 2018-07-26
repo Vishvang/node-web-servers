@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const express = require('express');
 
 // Load handlebars
@@ -10,6 +12,24 @@ var app = express();
 // fucntion of exp object expresss.static inside middleware function app.us
 // export.static takes the absolute path to folder we want to serve // __dirname store the path to our project direcotry
 app.use(express.static(__dirname + '/public'));
+
+app.use((req, res, next) => {
+    console.log('Inside of the middleware function.');
+    var now = new Date().toString();
+    var log = `${now}: ${req.method} ${req.url}`;
+
+    fs.appendFile('server.log', log + '\n', (err) => {
+        if(err) {
+            console.log('Unable to append to server.log.');
+        }
+    });
+    next(); // letting the server process the request down below.
+});
+
+// This middleware stopes everything after it from executing
+app.use((req, res, next) => {
+    res.render('maintenance.hbs');
+});
 
 // setup the file to let know the handlebars that we want to add support for partial.
 hbs.registerPartials(__dirname + '/views/partials');
@@ -41,18 +61,25 @@ app.get('/',(req, res) => {
 
     res.render('home.hbs', {
         pageTitle: 'Home Page',
-        welcomeMessage: 'Welcome to Node.js Webserver Demo',
+        welcomeMessage: 'Welcome to Node.js Webserver Demo'
         // currentYear: new Date().getFullYear()
     })
 });
 
+// This are req handler
 app.get('/about', (req, res) => {
     //console.log('About page');
     res.render('about.hbs', {
-        pageTitle: 'About Page',
+        pageTitle: 'About Page'
         // currentYear: new Date().getFullYear()
     });
 });
+
+// app.get('/maintenance', (req, res) => {
+//     res.render('maintainance.hbs', {
+//         pageTitle: 'Maintenance Page'
+//     });
+// });
 
 // bad - send back json with errorMessage
 app.get('/bad', (req, res) => {
